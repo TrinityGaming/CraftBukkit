@@ -66,7 +66,7 @@ public class EntityChicken extends EntityAnimal {
         this.bp += this.bt * 2.0F;
         if (!this.world.isStatic && !this.isBaby() && !this.bZ() && --this.bu <= 0) {
             this.makeSound("mob.chicken.plop", 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
-            this.a(Items.EGG, 1);
+            this.a(Items.EGG, 100);
             this.bu = this.random.nextInt(6000) + 6000;
         }
     }

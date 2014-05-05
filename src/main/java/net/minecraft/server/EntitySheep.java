@@ -29,8 +29,7 @@ public class EntitySheep extends EntityAnimal {
         this.goalSelector.a(8, new PathfinderGoalRandomLookaround(this));
 		
 		//Custom Start
-		  this.targetSelector.a(4, new PathfinderGoalRandomTargetNonTamed(this, EntitySheep.class, 200, false));
-		  this.goalSelector.a(4, new PathfinderGoalMeleeAttack(this, 1.0D, true));
+		
 		
         this.bq.setItem(0, new ItemStack(Items.INK_SACK, 1, 0));
         this.bq.setItem(1, new ItemStack(Items.INK_SACK, 1, 0));
