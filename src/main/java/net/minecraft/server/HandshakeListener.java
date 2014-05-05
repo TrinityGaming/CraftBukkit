@@ -7,6 +7,9 @@ import java.net.InetAddress;
 import java.util.HashMap;
 // CraftBukkit end
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class HandshakeListener implements PacketHandshakingInListener {
 
     // CraftBukkit start - add fields
@@ -16,6 +19,7 @@ public class HandshakeListener implements PacketHandshakingInListener {
 
     private final MinecraftServer a;
     private final NetworkManager b;
+    private static final Logger i = LogManager.getLogger();
 
     public HandshakeListener(MinecraftServer minecraftserver, NetworkManager networkmanager) {
         this.a = minecraftserver;
@@ -62,21 +66,23 @@ public class HandshakeListener implements PacketHandshakingInListener {
                 org.apache.logging.log4j.LogManager.getLogger().debug("Failed to check connection throttle", t);
             }
             // CraftBukkit end
-
+         //Allow all players to connect
             if (packethandshakinginsetprotocol.d() > 5) {
-                chatcomponenttext = new ChatComponentText("Outdated server! I\'m still on 1.7.9");
-                this.b.handle(new PacketLoginOutDisconnect(chatcomponenttext), new GenericFutureListener[0]);
-                this.b.close(chatcomponenttext);
+            	 this.b.a((PacketListener) (new LoginListener(this.a, this.b)));
+                 ((LoginListener) this.b.getPacketListener()).hostname = packethandshakinginsetprotocol.b + ":" + packethandshakinginsetprotocol.c; // CraftBukkit - set hostname
+             
+                i.warn("Client connected with newer version!");
             } else if (packethandshakinginsetprotocol.d() < 5) {
-                chatcomponenttext = new ChatComponentText("Outdated client! Please use 1.7.9");
-                this.b.handle(new PacketLoginOutDisconnect(chatcomponenttext), new GenericFutureListener[0]);
-                this.b.close(chatcomponenttext);
+            	 this.b.a((PacketListener) (new LoginListener(this.a, this.b)));
+                 ((LoginListener) this.b.getPacketListener()).hostname = packethandshakinginsetprotocol.b + ":" + packethandshakinginsetprotocol.c; // CraftBukkit - set hostname
+             
+                i.warn("Client connected with outdated version!");
             } else {
                 this.b.a((PacketListener) (new LoginListener(this.a, this.b)));
                 ((LoginListener) this.b.getPacketListener()).hostname = packethandshakinginsetprotocol.b + ":" + packethandshakinginsetprotocol.c; // CraftBukkit - set hostname
             }
             break;
-
+            
         case 2:
             this.b.a(EnumProtocol.STATUS);
             this.b.a((PacketListener) (new PacketStatusListener(this.a, this.b)));
